@@ -26,4 +26,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: <arafathbeevi>/<reactapp-docker>
+          tags: arafathbeevi/reactapp-docker:latest
