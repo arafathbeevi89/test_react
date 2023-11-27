@@ -19,8 +19,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: docker-sample
-          environment_name: Docker-sample-env
+          application_name: docker-test
+          environment_name: Docker-test-env
           version_label: ${{ github.sha }}
           existing_bucket_name: elasticbeanstalk-eu-north-1-984491942727
           region: eu-north-1
