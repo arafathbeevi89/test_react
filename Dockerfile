@@ -1,20 +1,10 @@
-# Base image
-FROM node:14-alpine
-
-# Set working directory
+FROM node:14 as builder
 WORKDIR /app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install dependencies
+COPY package.json ./
 RUN npm install
-
-# Copy app files
 COPY . .
-
-# Build the React app
 RUN npm run build
 
-# Start the app
-CMD [ "npm", "start" ]
+FROM nginx
+EXPOSE 80
+COPY --from=builder /app/build/ usr/share/nginx/html
