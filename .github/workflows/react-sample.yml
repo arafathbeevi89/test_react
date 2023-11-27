@@ -2,7 +2,7 @@ name: Deployment to AWS
 on:
   push:
     branches:
-      - main
+      - "main"
 
 jobs:
   deploy:
@@ -21,7 +21,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: docker-sample
           environment_name: Docker-sample-env
-          version_label: ${{github.sha}}
-          existing_bucket_name: elasticbeanstalk-eu-north-1-984491942727
+          version_label: ${{ github.sha }}
+          existing_bucket_name: elasticbeanstalk-eu-north-1-984491942727c
           region: eu-north-1
           deployment_package: deploy.zip
