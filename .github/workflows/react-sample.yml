@@ -22,6 +22,6 @@ jobs:
           application_name: docker-sample
           environment_name: Docker-sample-env
           version_label: ${{ github.sha }}
-          existing_bucket_name: elasticbeanstalk-eu-north-1-984491942727c
+          existing_bucket_name: elasticbeanstalk-eu-north-1-984491942727
           region: eu-north-1
           deployment_package: deploy.zip
