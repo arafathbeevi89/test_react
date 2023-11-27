@@ -1,25 +1,42 @@
-name: Deploy to AWS
+name: Deploy to AWS Elastic Beanstalk
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  deploy: 
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout source code
+      - name: Checkout code
         uses: actions/checkout@v2
-      - name: Generate deployment package
-        run: zip -r deploy.zip . -x '*.git*'
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v21
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: test
-          environment_name: Test-Env
-          version_label: ${{ github.sha}}
-          existing_bucket_name: elasticbeanstalk-eu-north-1-984491942727
-          region: eu-north-1
-          deployment_package: deploy.zip
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+      - name: Build Docker image
+        run: docker build -t docker-react:latest .
+
+      - name: Create ZIP Archive
+        run: |
+          zip -r application.zip .
+          aws s3 cp application.zip s3://elasticbeanstalk-eu-north-1-984491942727/application.zip
+
+      - name: Create Elastic Beanstalk version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name test1 \
+            --version-label $GITHUB_SHA \
+            --source-bundle S3Bucket=elasticbeanstalk-eu-north-1-984491942727,S3Key=application.zip
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name Test1-env \
+            --version-label $GITHUB_SHA
