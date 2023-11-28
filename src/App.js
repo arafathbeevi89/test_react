@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hi from elastic bean stalk</h1>
+        <h1>HELLOO</h1>
       </header>
     </div>
   );
