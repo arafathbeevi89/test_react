@@ -2,7 +2,7 @@ name: Deploy React app to AWS Elastic Beanstalk
 on:
   push:
     branches:
-      - "deploy-ebs"
+      - "aws-ebs-deploy"
 jobs:
   deploy:
     runs-on: ubuntu-latest
